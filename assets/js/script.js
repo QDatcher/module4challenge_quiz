@@ -1,6 +1,6 @@
 var quizBox = document.querySelector("#quiz-box")
 var timer = document.querySelector("#timer")
-
+var quizAnswerBox = document.querySelector("#answer-button-holder")
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
@@ -10,100 +10,100 @@ const questions = {
     0: {
         question: 'What is considered the skeleton of your website?',
         answers: {
-            a: 'JavaScript',
-            b: 'HTML',
-            c: 'CSS',
-            d: 'VS Code'
+            0: 'A: JavaScript',
+            1: 'B: HTML',
+            2: 'C: CSS',
+            3: 'D: VS Code'
         },
         correctAnswer: 'B'
     },
     1: {
         question: 'What is console.log() used for?',
         answers: {
-            a: 'Showing the user the output of whatever variable is inside',
-            b: 'Debugging',
-            c: 'Testing if an expression is true or false',
-            d: 'All of the above'
+            0: 'A: Showing the user the output of whatever variable is inside',
+            1: 'B: Debugging',
+            2: 'C: Testing if an expression is true or false',
+            3: 'D: All of the above'
         },
         correctAnswer: 'D'
     },
     2: {
         question: 'What is Github',
         answers: {
-            a: 'A place to write code',
-            b: 'A system used to store the progress of your coding project',
-            c: 'An Internet hosting service for software development and version control using Git',
-            d: 'None of the above'
+            0: 'A: A place to write code',
+            1: 'B: A system used to store the progress of your coding project',
+            2: 'C: An Internet hosting service for software development and version control using Git',
+            3: 'D: None of the above'
         },
         correctAnswer: 'C'
     },
     3: {
         question: 'What will be returned after the following code console.log(5 < 6)',
         answers: {
-            a: 'True',
-            b: 'False',
-            c: 'Undefined',
-            d: '5 < 6'
+            0: 'A: True',
+            1: 'B: False',
+            2: 'C: Undefined',
+            3: 'D: 5 < 6'
         },
         correctAnswer: 'A'
     },
     4: {
         question: 'What will be returned after the following code console.log(5 == "6")',
         answers: {
-            a: 'True',
-            b: 'False',
-            c: 'Undefined',
-            d: '5 < 6'
+            0: 'A: True',
+            1: 'B: False',
+            2: 'C: Undefined',
+            3: 'D: 5 < 6'
         },
         correctAnswer: 'B'
     },
     5: {
         question: 'What attribute do you use in an <img> tag add the link to the photo',
         answers: {
-            a: 'href',
-            b: 'photoLink',
-            c: 'src',
-            d: 'None of the above'
+            0: 'A: href',
+            1: 'B: photoLink',
+            2: 'C: src',
+            3: 'D: None of the above'
         },
         correctAnswer: 'C'
     },
     6: {
         question: 'In CSS what does "margin: 10px 5px;" mean?',
         answers: {
-            a: 'margin of 10px on the left and 5px on the right',
-            b: 'margin of 10px vertical and 5px horizontal',
-            c: 'margin of 10px horizontal and 5px vertical',
-            d: 'None of the above'
+            0: 'A: margin of 10px on the left and 5px on the right',
+            1: 'B: margin of 10px vertical and 5px horizontal',
+            2: 'C: margin of 10px horizontal and 5px vertical',
+            3: 'D: None of the above'
         },
         correctAnswer: 'B'
     },
     7: {
         question: 'Which justify-content value will generate space on the left right and middle of 2 divs on the same row?',
         answers: {
-            a: 'space-between',
-            b: 'end',
-            c: 'center',
-            d: 'space-around'
+            0: 'A: space-between',
+            1: 'B: end',
+            2: 'C: center',
+            3: 'D: space-around'
         },
         correctAnswer: 'D'
     },
     8: {
         question: 'If I want to move an object based on the parent it resides in and using property "top" which property do I have to use first?',
         answers: {
-            a: 'position: relative;',
-            b: 'display: flex;',
-            c: 'display: grid;',
-            d: 'position: absolute;'
+            0: 'A: position: relative;',
+            1: 'B: display: flex;',
+            2: 'C: display: grid;',
+            3: 'D: position: absolute;'
         },
         correctAnswer: 'A'
     },
     9: {
         question: 'Which code language makes your website dynamic, interactive, and engaging?',
         answers: {
-            a: 'JavaScript',
-            b: 'HTML',
-            c: 'CSS',
-            d: 'VS Code'
+            0: 'A: JavaScript',
+            1: 'B: HTML',
+            2: 'C: CSS',
+            3: 'D: VS Code'
         },
         correctAnswer: 'A'
     }
@@ -125,11 +125,34 @@ const quiz = {
         
           }, 1000);
     },
+    newQuestion: (questionNumber)=>{
+        var question = document.createElement("h3")
+        question.textContent = questions[questionNumber].question;
+        quizBox.appendChild(question)
+        console.log()
+        for(let i = 0; i < questions[questionNumber].answers.length; i++){
+            var button = document.createElement("button")
 
+            console.log(button)
+            button.textContent = questions[questionNumber]
+
+            console.log(button)
+
+            quizAnswerBox.appendChild("<li>" + button + "</li>")
+            console.log(quizAnswerBox)
+        }
+        console.log(quizBox)
+        console.log(quizAnswerBox)
+    },
     playGame: ()=> {
-        var h2 = document.createElement("h1")
+        
     }
 }
 
 
 quiz.settingTimer()
+
+console.log(questions[0].answers[0])
+
+quiz.newQuestion(1)
+
