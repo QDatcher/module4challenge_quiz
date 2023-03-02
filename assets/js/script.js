@@ -1,10 +1,13 @@
+var quizBox = document.querySelector("#quiz-box")
+var timer = document.querySelector("#timer")
+
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
 let time = 30;
 
 const questions = {
-    1: {
+    0: {
         question: 'What is considered the skeleton of your website?',
         answers: {
             a: 'JavaScript',
@@ -14,7 +17,7 @@ const questions = {
         },
         correctAnswer: 'B'
     },
-    2: {
+    1: {
         question: 'What is console.log() used for?',
         answers: {
             a: 'Showing the user the output of whatever variable is inside',
@@ -24,7 +27,7 @@ const questions = {
         },
         correctAnswer: 'D'
     },
-    3: {
+    2: {
         question: 'What is Github',
         answers: {
             a: 'A place to write code',
@@ -34,7 +37,7 @@ const questions = {
         },
         correctAnswer: 'C'
     },
-    4: {
+    3: {
         question: 'What will be returned after the following code console.log(5 < 6)',
         answers: {
             a: 'True',
@@ -44,7 +47,7 @@ const questions = {
         },
         correctAnswer: 'A'
     },
-    5: {
+    4: {
         question: 'What will be returned after the following code console.log(5 == "6")',
         answers: {
             a: 'True',
@@ -54,7 +57,7 @@ const questions = {
         },
         correctAnswer: 'B'
     },
-    6: {
+    5: {
         question: 'What attribute do you use in an <img> tag add the link to the photo',
         answers: {
             a: 'href',
@@ -64,7 +67,7 @@ const questions = {
         },
         correctAnswer: 'C'
     },
-    7: {
+    6: {
         question: 'In CSS what does "margin: 10px 5px;" mean?',
         answers: {
             a: 'margin of 10px on the left and 5px on the right',
@@ -74,7 +77,7 @@ const questions = {
         },
         correctAnswer: 'B'
     },
-    8: {
+    7: {
         question: 'Which justify-content value will generate space on the left right and middle of 2 divs on the same row?',
         answers: {
             a: 'space-between',
@@ -84,7 +87,7 @@ const questions = {
         },
         correctAnswer: 'D'
     },
-    9: {
+    8: {
         question: 'If I want to move an object based on the parent it resides in and using property "top" which property do I have to use first?',
         answers: {
             a: 'position: relative;',
@@ -94,7 +97,7 @@ const questions = {
         },
         correctAnswer: 'A'
     },
-    10: {
+    9: {
         question: 'Which code language makes your website dynamic, interactive, and engaging?',
         answers: {
             a: 'JavaScript',
@@ -104,4 +107,9 @@ const questions = {
         },
         correctAnswer: 'A'
     }
+}
+
+const quiz = {
+    userAnswers: {},
+    
 }
