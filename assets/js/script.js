@@ -124,6 +124,10 @@ const quiz = {
             }
         
           }, 1000);
+    },
+
+    playGame: ()=> {
+        var h2 = document.createElement("h1")
     }
 }
 
