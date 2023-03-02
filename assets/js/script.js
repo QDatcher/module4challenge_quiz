@@ -111,5 +111,21 @@ const questions = {
 
 const quiz = {
     userAnswers: {},
-    
+    settingTimer: ()=> {
+        var timerInterval = setInterval(function() {
+            time--;
+            timer.textContent = time + " seconds left till quiz ends.";
+        
+            if(time === 0) {
+              // Stops execution of action at set interval
+              clearInterval(timerInterval);
+              // Calls function to create and append image
+              
+            }
+        
+          }, 1000);
+    }
 }
+
+
+quiz.settingTimer()
