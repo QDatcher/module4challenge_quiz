@@ -1,6 +1,7 @@
 var quizBox = document.querySelector("#quiz-box")
 var timer = document.querySelector("#timer")
 var quizAnswerBox = document.querySelector("#answer-button-holder")
+var currentQuestion = document.querySelector("#current-question")
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
@@ -126,21 +127,22 @@ const quiz = {
           }, 1000);
     },
     newQuestion: (questionNumber)=>{
-        var question = document.createElement("h3")
-        question.textContent = questions[questionNumber].question;
-        quizBox.appendChild(question)
-        console.log()
-        for(let i = 0; i < questions[questionNumber].answers.length; i++){
-            var button = document.createElement("button")
+        
+        for(let i = 0; i < 4; i++){
+            var button = document.createElement("li")
 
             console.log(button)
-            button.textContent = questions[questionNumber]
+            button.textContent = questions[questionNumber].answers[i]
 
             console.log(button)
 
-            quizAnswerBox.appendChild("<li>" + button + "</li>")
+            quizAnswerBox.appendChild(button)
             console.log(quizAnswerBox)
         }
+        var question = document.createElement("h3")
+        currentQuestion.textContent = questions[questionNumber].question;
+
+        console.log(question)
         console.log(quizBox)
         console.log(quizAnswerBox)
     },
@@ -154,5 +156,5 @@ quiz.settingTimer()
 
 console.log(questions[0].answers[0])
 
-quiz.newQuestion(1)
+quiz.newQuestion(3)
 
