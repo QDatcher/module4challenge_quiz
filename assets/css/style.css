@@ -5,4 +5,25 @@
 header {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 5%;
+    
+}
+
+#quiz-box {
+    width: 60%;
+    margin: 13% auto;
+}
+
+#current-question {
+    text-align: center;
+    font-size: 30px;
+}
+
+.answer {
+    margin: 20px 0;
+
+}
+.answer button {
+    width: 100%;
+    font-size: 20px;
 }

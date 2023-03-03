@@ -143,7 +143,7 @@ const quiz = {
 
             choice.addEventListener('click', this.selectAnswer)
             console.log(button)
-
+            choice.className = 'answer'
             quizAnswerBox.appendChild(choice)
             choice.appendChild(button)
             console.log(quizAnswerBox)
