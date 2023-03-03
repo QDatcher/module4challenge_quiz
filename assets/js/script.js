@@ -106,12 +106,12 @@ const questions = {
             2: 'C: CSS',
             3: 'D: VS Code'
         },
-        correctAnswer: 'A'
+        correctAnswer: 'A: JavaScript'
     }
 }
 
 const quiz = {
-    userAnswers: {},
+    userAnswers: [],
     settingTimer: ()=> {
         var timerInterval = setInterval(function() {
             time--;
@@ -126,25 +126,31 @@ const quiz = {
         
           }, 1000);
     },
+
+    selectAnswer: (event)=>{
+        // event.preventDefault()
+        var theAnswer = event.target.value
+        console.log(theAnswer)
+        console.log("HELLO")
+    },
     newQuestion: (questionNumber)=>{
         
         for(let i = 0; i < 4; i++){
-            var button = document.createElement("li")
-
+            var choice = document.createElement("li")
+            var button = document.createElement('button')
             console.log(button)
             button.textContent = questions[questionNumber].answers[i]
 
+            choice.addEventListener('click', this.selectAnswer)
             console.log(button)
 
-            quizAnswerBox.appendChild(button)
+            quizAnswerBox.appendChild(choice)
+            choice.appendChild(button)
             console.log(quizAnswerBox)
         }
         var question = document.createElement("h3")
         currentQuestion.textContent = questions[questionNumber].question;
 
-        console.log(question)
-        console.log(quizBox)
-        console.log(quizAnswerBox)
     },
     playGame: ()=> {
         
@@ -156,5 +162,5 @@ quiz.settingTimer()
 
 console.log(questions[0].answers[0])
 
-quiz.newQuestion(3)
+quiz.newQuestion(1)
 
