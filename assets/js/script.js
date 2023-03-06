@@ -127,26 +127,35 @@ const quiz = {
           }, 1000);
     },
 
-    selectAnswer: (event)=>{
-        // event.preventDefault()
-        var theAnswer = event.target.value
+    selectAnswer: (e)=>{
+        e.preventDefault()
+        
+        var theAnswer = e.target.value
+        quiz.userAnswers.push(theAnswer)
+        return theAnswer
         console.log(theAnswer)
         console.log("HELLO")
+
+    },
+    compareAnswer: (userChoice, actualAnswer)=>{
+        if(userChoice == actualAnswer){
+            return true
+        } else {
+            return false
+        }
     },
     newQuestion: (questionNumber)=>{
         
         for(let i = 0; i < 4; i++){
             var choice = document.createElement("li")
             var button = document.createElement('button')
-            console.log(button)
             button.textContent = questions[questionNumber].answers[i]
-
-            choice.addEventListener('click', this.selectAnswer)
-            console.log(button)
+            button.setAttribute('value', questions[questionNumber].answers[i])
+            button.addEventListener('click', quiz.selectAnswer)
+            // choice.addEventListener('click', this.selectAnswer)
             choice.className = 'answer'
             quizAnswerBox.appendChild(choice)
             choice.appendChild(button)
-            console.log(quizAnswerBox)
         }
         var question = document.createElement("h3")
         currentQuestion.textContent = questions[questionNumber].question;
@@ -160,7 +169,6 @@ const quiz = {
 
 quiz.settingTimer()
 
-console.log(questions[0].answers[0])
 
 quiz.newQuestion(1)
 
