@@ -1,3 +1,5 @@
+var body = document.querySelector("#body")
+var startButton = document.querySelector("#start-button")
 var quizBox = document.querySelector("#quiz-box")
 var timer = document.querySelector("#timer")
 var quizAnswerBox = document.querySelector("#answer-button-holder")
@@ -132,11 +134,18 @@ const quiz = {
         
         var theAnswer = e.target.value
         quiz.userAnswers.push(theAnswer)
-        return theAnswer
         console.log(theAnswer)
         console.log("HELLO")
+        return theAnswer
+
 
     },
+
+    createQuizBox: (e)=>{
+        e.preventDefault()
+        quiz.newQuestion(0)
+    },
+    
     compareAnswer: (userChoice, actualAnswer)=>{
         if(userChoice == actualAnswer){
             return true
@@ -144,7 +153,16 @@ const quiz = {
             return false
         }
     },
+
     newQuestion: (questionNumber)=>{
+        var quizBox = document.createElement("div");
+        var questionBox = document.createElement("h3");
+        var answerButtonsContainer = document.createElement("ul")
+        startButton.remove()
+
+        body.appendChild(quizBox)
+        quizBox.appendChild(questionBox);
+        quizBox.appendChild(answerButtonsContainer);
         
         for(let i = 0; i < 4; i++){
             var choice = document.createElement("li")
@@ -154,21 +172,22 @@ const quiz = {
             button.addEventListener('click', quiz.selectAnswer)
             // choice.addEventListener('click', this.selectAnswer)
             choice.className = 'answer'
-            quizAnswerBox.appendChild(choice)
+            answerButtonsContainer.appendChild(choice)
             choice.appendChild(button)
         }
-        var question = document.createElement("h3")
-        currentQuestion.textContent = questions[questionNumber].question;
+        questionBox.textContent = questions[questionNumber].question;
+        questionBox.className = 'current-question'
 
     },
     playGame: ()=> {
+        quiz.newQuestion(8)
         
     }
 }
 
-
 quiz.settingTimer()
 
+startButton.addEventListener('click', quiz.playGame)
 
-quiz.newQuestion(1)
+
 

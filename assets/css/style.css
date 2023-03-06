@@ -6,7 +6,12 @@ header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5%;
-    
+
+}
+
+.start-button {
+    margin: 200px auto;
+    width: 200px;
 }
 
 #quiz-box {
@@ -14,7 +19,7 @@ header {
     margin: 13% auto;
 }
 
-#current-question {
+.current-question {
     text-align: center;
     font-size: 30px;
 }
