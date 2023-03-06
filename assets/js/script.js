@@ -1,13 +1,15 @@
 var body = document.querySelector("#body")
 var startButton = document.querySelector("#start-button")
-var quizBox = document.querySelector("#quiz-box")
+var quizBoxContainer = document.querySelector("#quiz-box")
+var resultsText = document.querySelector('#results')
 var timer = document.querySelector("#timer")
 var quizAnswerBox = document.querySelector("#answer-button-holder")
 var currentQuestion = document.querySelector("#current-question")
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
-let time = 30;
+let time = 500;
+let questionNumber = 0
 
 const questions = {
     0: {
@@ -18,7 +20,7 @@ const questions = {
             2: 'C: CSS',
             3: 'D: VS Code'
         },
-        correctAnswer: 'B'
+        correctAnswer: 'B: HTML'
     },
     1: {
         question: 'What is console.log() used for?',
@@ -28,7 +30,7 @@ const questions = {
             2: 'C: Testing if an expression is true or false',
             3: 'D: All of the above'
         },
-        correctAnswer: 'D'
+        correctAnswer: 'D: All of the above'
     },
     2: {
         question: 'What is Github',
@@ -38,7 +40,7 @@ const questions = {
             2: 'C: An Internet hosting service for software development and version control using Git',
             3: 'D: None of the above'
         },
-        correctAnswer: 'C'
+        correctAnswer: 'C: An Internet hosting service for software development and version control using Git'
     },
     3: {
         question: 'What will be returned after the following code console.log(5 < 6)',
@@ -48,7 +50,7 @@ const questions = {
             2: 'C: Undefined',
             3: 'D: 5 < 6'
         },
-        correctAnswer: 'A'
+        correctAnswer: 'A: True'
     },
     4: {
         question: 'What will be returned after the following code console.log(5 == "6")',
@@ -58,7 +60,7 @@ const questions = {
             2: 'C: Undefined',
             3: 'D: 5 < 6'
         },
-        correctAnswer: 'B'
+        correctAnswer: 'B: False'
     },
     5: {
         question: 'What attribute do you use in an <img> tag add the link to the photo',
@@ -68,7 +70,7 @@ const questions = {
             2: 'C: src',
             3: 'D: None of the above'
         },
-        correctAnswer: 'C'
+        correctAnswer:'C: src',
     },
     6: {
         question: 'In CSS what does "margin: 10px 5px;" mean?',
@@ -78,7 +80,7 @@ const questions = {
             2: 'C: margin of 10px horizontal and 5px vertical',
             3: 'D: None of the above'
         },
-        correctAnswer: 'B'
+        correctAnswer: 'B: margin of 10px vertical and 5px horizontal'
     },
     7: {
         question: 'Which justify-content value will generate space on the left right and middle of 2 divs on the same row?',
@@ -88,7 +90,7 @@ const questions = {
             2: 'C: center',
             3: 'D: space-around'
         },
-        correctAnswer: 'D'
+        correctAnswer: 'D: space-around'
     },
     8: {
         question: 'If I want to move an object based on the parent it resides in and using property "top" which property do I have to use first?',
@@ -98,7 +100,7 @@ const questions = {
             2: 'C: display: grid;',
             3: 'D: position: absolute;'
         },
-        correctAnswer: 'A'
+        correctAnswer: 'A: position: relative;'
     },
     9: {
         question: 'Which code language makes your website dynamic, interactive, and engaging?',
@@ -114,7 +116,9 @@ const questions = {
 
 const quiz = {
     userAnswers: [],
+    timeRanOut: false,
     settingTimer: ()=> {
+        timer.textContent = time + " seconds left till quiz ends.";
         var timerInterval = setInterval(function() {
             time--;
             timer.textContent = time + " seconds left till quiz ends.";
@@ -131,14 +135,37 @@ const quiz = {
 
     selectAnswer: (e)=>{
         e.preventDefault()
+        var resultMessage;
+        var actualAnswer = questions[questionNumber].correctAnswer
+        var questionBox = e.target.parentElement.parentElement.parentElement
+        console.log(actualAnswer)
+        var userAnswer = e.target.value
+        quiz.userAnswers.push(userAnswer)
         
-        var theAnswer = e.target.value
-        quiz.userAnswers.push(theAnswer)
-        console.log(theAnswer)
-        console.log("HELLO")
-        return theAnswer
+        var answerResult = quiz.compareAnswer(userAnswer, actualAnswer)
+
+        if(answerResult){
+            resultMessage = 'You are Correct!!!'
+        } else {
+            time = time -15
+           resultMessage = "You were wrong the anwser is " + actualAnswer
+        }
+
+        questionNumber++;
+        resultsText.textContent = resultMessage;
+        console.log(e.target.parentElement.parentElement.parentElement)
+        questionBox.remove()
+        quiz.newQuestion(questionNumber)
 
 
+    },
+
+    generateFinishScreen: (){
+        questionNumber = 0;
+        var 
+        if(quiz.timeRanOut){
+
+        }
     },
 
     createQuizBox: (e)=>{
@@ -160,7 +187,7 @@ const quiz = {
         var answerButtonsContainer = document.createElement("ul")
         startButton.remove()
 
-        body.appendChild(quizBox)
+        quizBoxContainer.appendChild(quizBox)
         quizBox.appendChild(questionBox);
         quizBox.appendChild(answerButtonsContainer);
         
@@ -180,12 +207,15 @@ const quiz = {
 
     },
     playGame: ()=> {
-        quiz.newQuestion(8)
+        quiz.settingTimer()
+        quiz.newQuestion(questionNumber)
+        if(questionNumber > 9){
+
+        }
         
     }
 }
 
-quiz.settingTimer()
 
 startButton.addEventListener('click', quiz.playGame)
 
