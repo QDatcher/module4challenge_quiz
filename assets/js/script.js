@@ -3,6 +3,7 @@ var startButton = document.querySelector("#start-button")
 var quizBoxContainer = document.querySelector("#quiz-box")
 var resultsText = document.querySelector('#results')
 var timer = document.querySelector("#timer")
+var amountCorrect = document.querySelector('#amount-correct')
 var quizAnswerBox = document.querySelector("#answer-button-holder")
 var currentQuestion = document.querySelector("#current-question")
 const questionTotal = 10;
@@ -136,33 +137,40 @@ const quiz = {
     selectAnswer: (e)=>{
         e.preventDefault()
         var resultMessage;
-        var actualAnswer = questions[questionNumber].correctAnswer
-        var questionBox = e.target.parentElement.parentElement.parentElement
+        var actualAnswer = questions[questionNumber].correctAnswer;
+        var questionBox = e.target.parentElement.parentElement.parentElement;
         console.log(actualAnswer)
-        var userAnswer = e.target.value
+        var userAnswer = e.target.value;
         quiz.userAnswers.push(userAnswer)
         
         var answerResult = quiz.compareAnswer(userAnswer, actualAnswer)
 
         if(answerResult){
-            resultMessage = 'You are Correct!!!'
+            resultMessage = 'You are Correct!!!';
+            correctAnswers++;
+
         } else {
-            time = time -15
-           resultMessage = "You were wrong the anwser is " + actualAnswer
+            time = time -15;
+            timer.textContent = time + " seconds left till quiz ends.";
+           resultMessage = "You were wrong the anwser is " + actualAnswer;
         }
 
+        console.log(amountCorrect)
+
+        amountCorrect.textContent = correctAnswers + ' / 10'
         questionNumber++;
         resultsText.textContent = resultMessage;
-        console.log(e.target.parentElement.parentElement.parentElement)
+  
         questionBox.remove()
         quiz.newQuestion(questionNumber)
 
 
     },
 
-    generateFinishScreen: (){
+    generateFinishScreen: ()=>{
         questionNumber = 0;
-        var 
+        
+        
         if(quiz.timeRanOut){
 
         }
