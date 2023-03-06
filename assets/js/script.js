@@ -9,7 +9,7 @@ var currentQuestion = document.querySelector("#current-question")
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
-let time = 500;
+let time = 600;
 let questionNumber = 0
 
 const questions = {
@@ -128,7 +128,8 @@ const quiz = {
               // Stops execution of action at set interval
               clearInterval(timerInterval);
               // Calls function to create and append image
-              
+              quiz.timeRanOut = true;
+
             }
         
           }, 1000);
@@ -150,7 +151,7 @@ const quiz = {
             correctAnswers++;
 
         } else {
-            time = time -15;
+            time = time -30;
             timer.textContent = time + " seconds left till quiz ends.";
            resultMessage = "You were wrong the anwser is " + actualAnswer;
         }
@@ -226,6 +227,4 @@ const quiz = {
 
 
 startButton.addEventListener('click', quiz.playGame)
-
-
 
