@@ -1,6 +1,8 @@
 var body = document.querySelector("#body")
 var startButton = document.querySelector("#start-button")
+var endingScreen = document.querySelector("#ending")
 var quizBoxContainer = document.querySelector("#quiz-box")
+var starterContainer = document.querySelector('#starter-container')
 var resultsText = document.querySelector('#results')
 var timer = document.querySelector("#timer")
 var amountCorrect = document.querySelector('#amount-correct')
@@ -129,7 +131,11 @@ const quiz = {
               clearInterval(timerInterval);
               // Calls function to create and append image
               quiz.timeRanOut = true;
+                generateFinishScreen()
+            }
 
+            if(questionNumber > 9){
+                clearInterval(timerInterval);
             }
         
           }, 1000);
@@ -163,18 +169,55 @@ const quiz = {
         resultsText.textContent = resultMessage;
   
         questionBox.remove()
-        quiz.newQuestion(questionNumber)
 
+        if(questionNumber > 9){
+            quiz.generateFinishScreen()
+        }else {
+        quiz.newQuestion(questionNumber)
+        }
 
     },
 
     generateFinishScreen: ()=>{
-        questionNumber = 0;
-        
-        
-        if(quiz.timeRanOut){
+        quizBoxContainer.style.display = 'none';
+        endingScreen.style.display = 'block'
+        var score = document.createElement('p')
+        var buttonHolder = document.createElement('div')
+        var startOver = document.createElement('button');
+        var storeWin = document.createElement('button')
+        startOver.textContent = 'Retake the Test';
+        storeWin.textContent = 'Store your score';
 
+        startOver.addEventListener('click', quiz.startOverFunc)
+
+        buttonHolder.appendChild(startOver)
+        buttonHolder.appendChild(storeWin)
+        score.textContent = 'Your got ' + correctAnswers + ' answers correct outta 10';
+        if(quiz.timeRanOut){
+            var timeOut = document.createElement('h3')
+            timeOut.textContent = 'You Ran Out of Time!';
+            endingScreen.appendChild(timeOut)
+            endingScreen.appendChild(score)
+            endingScreen.appendChild(buttonHolder)
+
+        } else {
+            var finishedScreen = document.createElement('h3')
+            finishedScreen.textContent = 'Congrats on Finishing the Test in Time';
+            endingScreen.appendChild(finishedScreen)
+            endingScreen.appendChild(score)
+            endingScreen.appendChild(buttonHolder)
         }
+    },
+
+    startOverFunc: (e)=>{
+        endingScreen.style.display = 'none';
+        starterContainer.style.display = 'block';
+        correctAnswers = 0;
+        questionNumber = 0;
+        time = 600;
+        amountCorrect.textContent = '';
+        timer.textContent = ''
+        resultsText.textContent = ''
     },
 
     createQuizBox: (e)=>{
@@ -194,7 +237,7 @@ const quiz = {
         var quizBox = document.createElement("div");
         var questionBox = document.createElement("h3");
         var answerButtonsContainer = document.createElement("ul")
-        startButton.remove()
+ 
 
         quizBoxContainer.appendChild(quizBox)
         quizBox.appendChild(questionBox);
@@ -216,11 +259,12 @@ const quiz = {
 
     },
     playGame: ()=> {
+        quizBoxContainer.style.display = 'block';
+        endingScreen.style.display = 'none'
+        starterContainer.style.display = 'none';
+        quiz.timeRanOut = false;
         quiz.settingTimer()
         quiz.newQuestion(questionNumber)
-        if(questionNumber > 9){
-
-        }
         
     }
 }
