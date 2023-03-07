@@ -4,7 +4,10 @@ var endingScreen = document.querySelector("#ending")
 var quizBoxContainer = document.querySelector("#quiz-box")
 var starterContainer = document.querySelector('#starter-container')
 var resultsText = document.querySelector('#results')
+var highScoreContainer = document.querySelector('#highscore')
 var timer = document.querySelector("#timer")
+var saveScore = document.querySelector('#save-score')
+var savedScores = document.querySelector('#saved-scores')
 var amountCorrect = document.querySelector('#amount-correct')
 var quizAnswerBox = document.querySelector("#answer-button-holder")
 var currentQuestion = document.querySelector("#current-question")
@@ -12,7 +15,7 @@ const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
 let time = 600;
-let questionNumber = 0
+let questionNumber = 0;
 
 const questions = {
     0: {
@@ -118,7 +121,7 @@ const questions = {
 }
 
 const quiz = {
-    userAnswers: [],
+    highscoreInitials: [],
     timeRanOut: false,
     settingTimer: ()=> {
         timer.textContent = time + " seconds left till quiz ends.";
@@ -148,7 +151,7 @@ const quiz = {
         var questionBox = e.target.parentElement.parentElement.parentElement;
         console.log(actualAnswer)
         var userAnswer = e.target.value;
-        quiz.userAnswers.push(userAnswer)
+
         
         var answerResult = quiz.compareAnswer(userAnswer, actualAnswer)
 
@@ -170,10 +173,11 @@ const quiz = {
   
         questionBox.remove()
 
+ 
         if(questionNumber > 9){
             quiz.generateFinishScreen()
         }else {
-        quiz.newQuestion(questionNumber)
+            quiz.newQuestion(questionNumber)
         }
 
     },
@@ -189,6 +193,7 @@ const quiz = {
         storeWin.textContent = 'Store your score';
 
         startOver.addEventListener('click', quiz.startOverFunc)
+        storeWin.addEventListener('click', quiz.startSaveScore)
 
         buttonHolder.appendChild(startOver)
         buttonHolder.appendChild(storeWin)
@@ -220,9 +225,57 @@ const quiz = {
         resultsText.textContent = ''
     },
 
-    createQuizBox: (e)=>{
+    startSaveScore: (e)=>{
         e.preventDefault()
-        quiz.newQuestion(0)
+        highScoreContainer.style.display = 'block'
+        saveScore.style.display = 'block';
+        var userName = document.createElement('input');
+        var instruction = document.createElement('h3')
+        instruction.textContent = 'Enter Your Initials';
+        var saveScoreButton = document.createElement('button');
+        saveScoreButton.textContent = 'Save Score';
+        saveScoreButton.addEventListener('click', function(){
+            var user = {
+                name: userName.value, 
+                score:`${correctAnswers} / 10`
+            }
+            localStorage.setItem(userName.value, JSON.stringify(user) )
+            quiz.highscoreInitials.push(userName.value)
+            
+        })
+        saveScore.appendChild(instruction)
+        saveScore.appendChild(userName)
+        saveScore.appendChild(saveScoreButton);
+
+        
+
+    },
+    showHighScores: ()=>{
+        highScoreContainer.style.display = 'block';
+        savedScores.style.display = 'block';
+        var table = document.createElement('table')
+        var initialHeader = document.createElement('th');
+        var scoreHeader = document.createElement('th')
+        initialHeader.textContent = 'Initials';
+        scoreHeader.textContent = 'Scores'
+
+        for(let i = 0; i < localStorage.length; i++){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
     },
     
     compareAnswer: (userChoice, actualAnswer)=>{
@@ -272,3 +325,7 @@ const quiz = {
 
 startButton.addEventListener('click', quiz.playGame)
 
+console.log(localStorage)
+for(const key in localStorage){
+console.log(key)
+}
