@@ -5,13 +5,27 @@
 header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
     margin-bottom: 5%;
+    font-size: 20px;
+    color: white;
+    background-color: black;
+    height: 10vh;
+
 
 }
 
 .start-button {
+    display: flex;
+    justify-content: center;
     margin: 200px auto;
+}
+
+#start-button {
+    margin: 0 auto;
     width: 200px;
+
 }
 
 .starter-h3 {
@@ -20,7 +34,7 @@ header {
 
 #quiz-box {
     width: 60%;
-    margin: 13% auto;
+    margin: 7% auto;
 }
 
 .current-question {
@@ -35,4 +49,15 @@ header {
 .answer button {
     width: 100%;
     font-size: 20px;
+}
+
+
+
+#results-box {
+    margin: 100px 20px;
+}
+
+.finished-h3 {
+    text-align: center;
+    font-size: 32px;
 }

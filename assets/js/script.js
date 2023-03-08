@@ -16,6 +16,7 @@ const highScoreList = [];
 let correctAnswers = 0;
 let time = 600;
 let questionNumber = 0;
+var highscoresList = JSON.parse(localStorage.getItem('highscores'))
 
 const questions = {
     0: {
@@ -121,7 +122,7 @@ const questions = {
 }
 
 const quiz = {
-    highscoreInitials: [],
+    highscores: [],
     timeRanOut: false,
     settingTimer: ()=> {
         timer.textContent = time + " seconds left till quiz ends.";
@@ -151,7 +152,7 @@ const quiz = {
         var questionBox = e.target.parentElement.parentElement.parentElement;
         console.log(actualAnswer)
         var userAnswer = e.target.value;
-
+        console.log(e.target.parentElement.parentElement.parentElement)
         
         var answerResult = quiz.compareAnswer(userAnswer, actualAnswer)
 
@@ -208,6 +209,7 @@ const quiz = {
         } else {
             var finishedScreen = document.createElement('h3')
             finishedScreen.textContent = 'Congrats on Finishing the Test in Time';
+            finishedScreen.className = 'finished-h3';
             endingScreen.appendChild(finishedScreen)
             endingScreen.appendChild(score)
             endingScreen.appendChild(buttonHolder)
@@ -221,16 +223,16 @@ const quiz = {
         questionNumber = 0;
         time = 600;
         amountCorrect.textContent = '';
-        timer.textContent = ''
-        resultsText.textContent = ''
+        timer.textContent = '';
+        resultsText.textContent = '';
     },
 
     startSaveScore: (e)=>{
         e.preventDefault()
-        highScoreContainer.style.display = 'block'
+        highScoreContainer.style.display = 'block';
         saveScore.style.display = 'block';
         var userName = document.createElement('input');
-        var instruction = document.createElement('h3')
+        var instruction = document.createElement('h3');
         instruction.textContent = 'Enter Your Initials';
         var saveScoreButton = document.createElement('button');
         saveScoreButton.textContent = 'Save Score';
@@ -239,8 +241,11 @@ const quiz = {
                 name: userName.value, 
                 score:`${correctAnswers} / 10`
             }
-            localStorage.setItem(userName.value, JSON.stringify(user) )
-            quiz.highscoreInitials.push(userName.value)
+            
+            quiz.highscores.push(user)
+            localStorage.setItem('highscores', JSON.stringify(quiz.highscores) )
+            quiz.showHighScores()
+            
             
         })
         saveScore.appendChild(instruction)
@@ -254,13 +259,32 @@ const quiz = {
         highScoreContainer.style.display = 'block';
         savedScores.style.display = 'block';
         var table = document.createElement('table')
+        var tableRow = document.createElement('tr')
         var initialHeader = document.createElement('th');
         var scoreHeader = document.createElement('th')
         initialHeader.textContent = 'Initials';
-        scoreHeader.textContent = 'Scores'
+        scoreHeader.textContent = 'Scores';
 
-        for(let i = 0; i < localStorage.length; i++){
+        savedScores.appendChild(table)
+        table.appendChild(tableRow)
+        tableRow.appendChild(initialHeader)
+        tableRow.appendChild(scoreHeader)
 
+
+        
+
+        console.log(highscoresList[0].name)
+        for(let i = 0; i < highscoresList.length; i++){
+            var tableR = document.createElement('tr')
+            var tableName = document.createElement('td')
+            var tableScore = document.createElement('td')
+
+            tableName.textContent = highScoreList[i].name;
+            tableScore.textContent = highScoreList[i].score;
+
+            table.appendChild(tableR)
+            tableR.appendChild(tableName)
+            tableR.appendChild(tableScore)
 
 
 
@@ -302,7 +326,6 @@ const quiz = {
             button.textContent = questions[questionNumber].answers[i]
             button.setAttribute('value', questions[questionNumber].answers[i])
             button.addEventListener('click', quiz.selectAnswer)
-            // choice.addEventListener('click', this.selectAnswer)
             choice.className = 'answer'
             answerButtonsContainer.appendChild(choice)
             choice.appendChild(button)
@@ -329,3 +352,7 @@ console.log(localStorage)
 for(const key in localStorage){
 console.log(key)
 }
+
+var list = JSON.parse(localStorage.getItem('highscores'))
+
+// console.log(list[1].name)
