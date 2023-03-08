@@ -20,6 +20,13 @@ header {
     color:red;
 }
 
+#highscore-return-buttons {
+    margin: 30px auto;
+    width: 30%;
+    height: 30px;
+    text-align: center;
+}
+
 .start-button {
     display: flex;
     justify-content: center;
@@ -91,4 +98,7 @@ table, th, td {
 
   td {
     
+  }
+  #score-title {
+    display: none;
   }

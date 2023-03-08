@@ -1,6 +1,7 @@
 var body = document.querySelector("#body")
 var viewHighscore = document.querySelector("#highscore-button")
 var startButton = document.querySelector("#start-button")
+var scoreTitle = document.querySelector('#score-title')
 var endingScreen = document.querySelector("#ending")
 var quizBoxContainer = document.querySelector("#quiz-box")
 var starterContainer = document.querySelector('#starter-container')
@@ -12,11 +13,12 @@ var savedScores = document.querySelector('#saved-scores')
 var amountCorrect = document.querySelector('#amount-correct')
 var quizAnswerBox = document.querySelector("#answer-button-holder")
 var currentQuestion = document.querySelector("#current-question")
+var highscoreReturnButton = document.querySelector("#highscore-return-buttons")
 const questionTotal = 10;
 const highScoreList = [];
 let correctAnswers = 0;
 let time = 600;
-let questionNumber = 0;
+let questionNumber = -1;
 var highscoresList = JSON.parse(localStorage.getItem('highscores'))
 
 const questions = {
@@ -122,6 +124,11 @@ const questions = {
     }
 }
 
+
+var userName;
+var instruction;
+var saveScoreButton;
+
 const quiz = {
     highscores: [],
     timeRanOut: false,
@@ -137,10 +144,17 @@ const quiz = {
               // Calls function to create and append image
               quiz.timeRanOut = true;
                 generateFinishScreen()
+                
             }
 
             if(questionNumber > 9){
                 clearInterval(timerInterval);
+                timer.textContent = '';
+            }
+
+            if(quizBoxContainer.style.display == 'none'){
+                clearInterval(timerInterval)
+                timer.textContent = '';
             }
         
           }, 1000);
@@ -184,6 +198,8 @@ const quiz = {
 
     },
 
+
+
     generateFinishScreen: ()=>{
         quizBoxContainer.style.display = 'none';
         endingScreen.style.display = 'block'
@@ -199,7 +215,7 @@ const quiz = {
 
         buttonHolder.appendChild(startOver)
         buttonHolder.appendChild(storeWin)
-        score.textContent = 'Your got ' + correctAnswers + ' answers correct outta 10';
+        score.textContent = 'You got ' + correctAnswers + ' answers correct outta 10';
         if(quiz.timeRanOut){
             var timeOut = document.createElement('h3')
             timeOut.textContent = 'You Ran Out of Time!';
@@ -219,25 +235,43 @@ const quiz = {
 
     startOverFunc: (e)=>{
         endingScreen.style.display = 'none';
+        highScoreContainer.style.display = 'none';
         starterContainer.style.display = 'block';
         correctAnswers = 0;
-        questionNumber = 0;
+        questionNumber = -1;
         time = 600;
         amountCorrect.textContent = '';
         timer.textContent = '';
         resultsText.textContent = '';
+        quiz.removeQuizBoxContent(quizBoxContainer)
+        quiz.removeEnding(endingScreen)
+    },
+
+    removeQuizBoxContent: ()=>{
+        for(let i = quizBoxContainer.children.length - 1; i > -1 ; i--){
+            quizBoxContainer.children[i].remove()
+        }
     },
 
     startSaveScore: (e)=>{
         e.preventDefault()
         highScoreContainer.style.display = 'block';
         saveScore.style.display = 'block';
-        var userName = document.createElement('input');
-        var instruction = document.createElement('h3');
+        userName = document.createElement('input');
+        instruction = document.createElement('h3');
         instruction.textContent = 'Enter Your Initials';
-        var saveScoreButton = document.createElement('button');
+        saveScoreButton = document.createElement('button');
         saveScoreButton.textContent = 'Save Score';
+        saveScore.appendChild(instruction)
+        saveScore.appendChild(userName)
+        saveScore.appendChild(saveScoreButton);
         saveScoreButton.addEventListener('click', function(){
+
+            if(userName.value == ''){
+                alert('Please write your name')
+                return;
+            }
+
             var user = {
                 name: userName.value, 
                 score:`${correctAnswers} / 10`
@@ -248,22 +282,35 @@ const quiz = {
             }
             quiz.highscores.push(user)
             localStorage.setItem('highscores', JSON.stringify(quiz.highscores) )
+
+          
+            quiz.removeChildren(endingScreen)
+          
             quiz.showHighScores()
             
             
         })
-        saveScore.appendChild(instruction)
-        saveScore.appendChild(userName)
-        saveScore.appendChild(saveScoreButton);
+
 
         
 
     },
+
     showHighScores: ()=>{
+        var verify = confirm("If you choose to continue you might loose any progress you were making")
+    
+        if(!verify){
+            return;
+        }
+        quiz.removeChildren(quizBoxContainer)
+        resultsText.textContent = '';
+        amountCorrect.textContent = '';
         quizBoxContainer.style.display = 'none';
+        timer.textContent = '';
         endingScreen.style.display = 'none';
         starterContainer.style.display = 'none';
         highScoreContainer.style.display = 'block';
+        scoreTitle.style.display = 'block';
         savedScores.style.display = 'block';
         var table = document.createElement('table')
         var tableRow = document.createElement('tr')
@@ -272,15 +319,18 @@ const quiz = {
         initialHeader.textContent = 'Initials';
         scoreHeader.textContent = 'Scores';
 
+        if(savedScores.children.length == 0){
+
+        
         savedScores.appendChild(table)
         table.appendChild(tableRow)
         tableRow.appendChild(initialHeader)
         tableRow.appendChild(scoreHeader)
+        }
 
 
         
 
-        console.log(highscoresList[0].name)
         for(let i = 0; i < highscoresList.length; i++){
             var tableR = document.createElement('tr')
             var tableName = document.createElement('td')
@@ -341,7 +391,15 @@ const quiz = {
         questionBox.className = 'current-question'
 
     },
+    removeChildren: (element)=> {
+        for(let i = element.children.length - 1; i > -1 ; i--){
+            element.children[i].remove()
+        }
+
+
+    },
     playGame: ()=> {
+        questionNumber++;
         quizBoxContainer.style.display = 'block';
         endingScreen.style.display = 'none'
         starterContainer.style.display = 'none';
@@ -352,7 +410,7 @@ const quiz = {
     }
 }
 
-
+highscoreReturnButton.addEventListener('click', quiz.startOverFunc)
 viewHighscore.addEventListener('click', quiz.showHighScores)
 startButton.addEventListener('click', quiz.playGame)
 
@@ -368,3 +426,7 @@ var list = JSON.parse(localStorage.getItem('highscores'))
 // console.log(list[1].name)
 
 console.log(list)
+
+console.log(endingScreen.children[0])
+
+//this is what you were last working on ^^^^^
