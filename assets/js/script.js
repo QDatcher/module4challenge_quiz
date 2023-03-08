@@ -1,4 +1,5 @@
 var body = document.querySelector("#body")
+var viewHighscore = document.querySelector("#highscore-button")
 var startButton = document.querySelector("#start-button")
 var endingScreen = document.querySelector("#ending")
 var quizBoxContainer = document.querySelector("#quiz-box")
@@ -241,7 +242,10 @@ const quiz = {
                 name: userName.value, 
                 score:`${correctAnswers} / 10`
             }
-            
+            if(quiz.highscores.length == 0 && highscoresList !== null){
+                quiz.highscores = quiz.highscores.concat(highscoresList)
+                
+            }
             quiz.highscores.push(user)
             localStorage.setItem('highscores', JSON.stringify(quiz.highscores) )
             quiz.showHighScores()
@@ -256,6 +260,9 @@ const quiz = {
 
     },
     showHighScores: ()=>{
+        quizBoxContainer.style.display = 'none';
+        endingScreen.style.display = 'none';
+        starterContainer.style.display = 'none';
         highScoreContainer.style.display = 'block';
         savedScores.style.display = 'block';
         var table = document.createElement('table')
@@ -279,8 +286,8 @@ const quiz = {
             var tableName = document.createElement('td')
             var tableScore = document.createElement('td')
 
-            tableName.textContent = highScoreList[i].name;
-            tableScore.textContent = highScoreList[i].score;
+            tableName.textContent = highscoresList[i].name;
+            tableScore.textContent = highscoresList[i].score;
 
             table.appendChild(tableR)
             tableR.appendChild(tableName)
@@ -346,7 +353,10 @@ const quiz = {
 }
 
 
+viewHighscore.addEventListener('click', quiz.showHighScores)
 startButton.addEventListener('click', quiz.playGame)
+
+
 
 console.log(localStorage)
 for(const key in localStorage){
@@ -356,3 +366,5 @@ console.log(key)
 var list = JSON.parse(localStorage.getItem('highscores'))
 
 // console.log(list[1].name)
+
+console.log(list)
