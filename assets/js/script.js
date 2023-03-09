@@ -138,12 +138,12 @@ const quiz = {
             time--;
             timer.textContent = time + " seconds left till quiz ends.";
         
-            if(time === 0) {
+            if(time < 0) {
               // Stops execution of action at set interval
               clearInterval(timerInterval);
               // Calls function to create and append image
               quiz.timeRanOut = true;
-                generateFinishScreen()
+                quiz.generateFinishScreen()
                 
             }
 
@@ -183,7 +183,7 @@ const quiz = {
 
         console.log(amountCorrect)
 
-        amountCorrect.textContent = correctAnswers + ' / 10'
+        amountCorrect.textContent = correctAnswers + ' / 10 questions answered correctly'
         questionNumber++;
         resultsText.textContent = resultMessage;
   
@@ -213,12 +213,18 @@ const quiz = {
         startOver.addEventListener('click', quiz.startOverFunc)
         storeWin.addEventListener('click', quiz.startSaveScore)
 
+        startOver.className = 'endButtons';
+        storeWin.className = 'endButtons';
+
         buttonHolder.appendChild(startOver)
         buttonHolder.appendChild(storeWin)
+        buttonHolder.className = 'start-button';
         score.textContent = 'You got ' + correctAnswers + ' answers correct outta 10';
+        score.className = 'score-results'
         if(quiz.timeRanOut){
             var timeOut = document.createElement('h3')
             timeOut.textContent = 'You Ran Out of Time!';
+            timeOut.className = 'finished-h3';
             endingScreen.appendChild(timeOut)
             endingScreen.appendChild(score)
             endingScreen.appendChild(buttonHolder)
@@ -243,8 +249,9 @@ const quiz = {
         amountCorrect.textContent = '';
         timer.textContent = '';
         resultsText.textContent = '';
-        quiz.removeQuizBoxContent(quizBoxContainer)
-        quiz.removeEnding(endingScreen)
+        quiz.removeChildren(quizBoxContainer)
+        quiz.removeChildren(endingScreen)
+        quiz.removeChildren(savedScores)
     },
 
     removeQuizBoxContent: ()=>{
@@ -253,43 +260,65 @@ const quiz = {
         }
     },
 
+    retrieveHighscore: ()=>{
+        var list = JSON.parse(localStorage.getItem('highscores'));
+        return list;
+    },
+
     startSaveScore: (e)=>{
         e.preventDefault()
         highScoreContainer.style.display = 'block';
+        savedScores.style.display = 'none';
+        scoreTitle.style.display = 'none';
         saveScore.style.display = 'block';
         userName = document.createElement('input');
         instruction = document.createElement('h3');
         instruction.textContent = 'Enter Your Initials';
         saveScoreButton = document.createElement('button');
         saveScoreButton.textContent = 'Save Score';
-        saveScore.appendChild(instruction)
-        saveScore.appendChild(userName)
-        saveScore.appendChild(saveScoreButton);
-        saveScoreButton.addEventListener('click', function(){
 
-            if(userName.value == ''){
-                alert('Please write your name')
-                return;
-            }
+        if(saveScore.childElementCount < 1){
 
-            var user = {
-                name: userName.value, 
-                score:`${correctAnswers} / 10`
-            }
-            if(quiz.highscores.length == 0 && highscoresList !== null){
-                quiz.highscores = quiz.highscores.concat(highscoresList)
+        
+            saveScore.appendChild(instruction)
+            saveScore.appendChild(userName)
+            saveScore.appendChild(saveScoreButton);
+            saveScoreButton.addEventListener('click', function(){
+
+                if(userName.value == ''){
+                    alert('Please write your name')
+                    return;
+                }
+
+                var user = {
+                    name: userName.value, 
+                    score:`${correctAnswers} / 10`
+                }
+                if(quiz.highscores.length == 0 && highscoresList !== null){
+                    quiz.highscores = quiz.highscores.concat(highscoresList)
+                    
+                } 
+                // else if(quiz.highscores.length != highScoreList.length){
+                //     for(let i = )
+                // }
+
+
+                quiz.highscores.push(user)
+                console.log(quiz.highscores)
+                console.log(JSON.parse(localStorage.getItem('highscores')))
+                localStorage.setItem('highscores', JSON.stringify(quiz.highscores))
+
+                console.log(quiz.highscores)
+                console.log(JSON.parse(localStorage.getItem('highscores')))
+
+
+                resultsText.textContent = '';
+                quiz.removeChildren(endingScreen)
+                quiz.removeChildren(saveScore)
                 
-            }
-            quiz.highscores.push(user)
-            localStorage.setItem('highscores', JSON.stringify(quiz.highscores) )
-
-          
-            quiz.removeChildren(endingScreen)
-          
-            quiz.showHighScores()
-            
-            
-        })
+                
+            })
+        }
 
 
         
@@ -297,11 +326,15 @@ const quiz = {
     },
 
     showHighScores: ()=>{
+       
+        
+        // if()
         var verify = confirm("If you choose to continue you might loose any progress you were making")
     
         if(!verify){
             return;
         }
+        quiz.removeChildren(saveScore)
         quiz.removeChildren(quizBoxContainer)
         resultsText.textContent = '';
         amountCorrect.textContent = '';
@@ -329,15 +362,15 @@ const quiz = {
         }
 
 
-        
+        var scoreList = quiz.retrieveHighscore()
 
-        for(let i = 0; i < highscoresList.length; i++){
+        for(let i = 0; i < scoreList.length; i++){
             var tableR = document.createElement('tr')
             var tableName = document.createElement('td')
             var tableScore = document.createElement('td')
 
-            tableName.textContent = highscoresList[i].name;
-            tableScore.textContent = highscoresList[i].score;
+            tableName.textContent = scoreList[i].name;
+            tableScore.textContent = scoreList[i].score;
 
             table.appendChild(tableR)
             tableR.appendChild(tableName)
