@@ -38,5 +38,5 @@ To add a screenshot, create an `assets/images` folder in your repository and upl
 -Choosing to view the scoreList will result in your current progress to be lost.
 
 #Live Site Link
--Live Site: 
--Github: 
+-Live Site: https://qdatcher.github.io/module4challenge_quiz/
+-Github: https://github.com/QDatcher/module4challenge_quiz
