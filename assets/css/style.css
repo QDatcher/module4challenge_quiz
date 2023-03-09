@@ -15,10 +15,15 @@ header {
 
 
 }
-
 #highscore-button:hover {
     color:red;
 }
+
+
+
+/* This are for the stuff affecting the highscores */
+
+
 
 #highscore-return-buttons {
     margin: 30px auto;
@@ -26,68 +31,6 @@ header {
     height: 30px;
     text-align: center;
 }
-
-.start-button {
-    display: flex;
-    justify-content: center;
-    margin: 200px auto;
-}
-
-.endButtons {
-    margin: 0 auto;
-    width: 200px;
-}
-
-.score-results {
-    text-align: center;
-    margin: 50px auto;
-    font-size: 20px;
-}
-
-#start-button {
-    margin: 0 30px;
-    width: 200px;
-
-}
-
-.starter-h3 {
-    text-align: center;
-}
-
-#quiz-box {
-    width: 60%;
-    margin: 7% auto;
-}
-
-.current-question {
-    text-align: center;
-    font-size: 30px;
-}
-
-.answer {
-    margin: 20px 0;
-
-}
-.answer button {
-    width: 100%;
-    font-size: 20px;
-}
-
-.completion-h3 {
-    text-align: center;
-    font-size: 32px;
-}
-
-
-#results-box {
-    margin: 100px 20px;
-}
-
-.finished-h3 {
-    text-align: center;
-    font-size: 32px;
-}
-
 #highscore {
     display: none;
 }
@@ -117,3 +60,83 @@ table, th, td {
   #score-title {
     display: none;
   }
+
+  #save-score {
+    position: relative;
+  }
+.saveScore {
+    position: relative;
+    margin: 0 auto;
+    width: 200px;
+    bottom: 150px;
+}
+
+/* This affects the quizBox */
+#quiz-box {
+    width: 60%;
+    margin: 7% auto;
+}
+
+.current-question {
+    text-align: center;
+    font-size: 30px;
+}
+
+.answer {
+    margin: 20px 0;
+
+}
+.answer button {
+    width: 100%;
+    font-size: 20px;
+}
+
+.score-results {
+    text-align: center;
+    margin: 50px auto;
+    font-size: 20px;
+}
+
+/* This is affects the start screen material */
+#start-button {
+    margin: 0 30px;
+    width: 200px;
+
+}
+
+.starter-h3 {
+    text-align: center;
+}
+
+
+.start-button {
+    display: flex;
+    justify-content: center;
+    margin: 200px auto;
+}
+
+
+
+/* This affects end screen */
+.completion-h3 {
+    text-align: center;
+    font-size: 32px;
+}
+
+
+
+.finished-h3 {
+    text-align: center;
+    font-size: 32px;
+}
+
+
+.endButtons {
+    margin: 0 auto;
+    width: 200px;
+}
+
+/* Basic css for the end results box */
+#results-box {
+    margin: 50px 20px;
+}
