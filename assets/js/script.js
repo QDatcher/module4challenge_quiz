@@ -376,7 +376,7 @@ const quiz = {
         tableRow.appendChild(scoreHeader)
         }
 
-        //The following code creates the table that contains out saved scores and their respective initials
+        //The following code creates the table that contains out saved scores and their respective names
         var scoreList = quiz.retrieveHighscore()
 
         for(let i = 0; i < scoreList.length; i++){
@@ -416,7 +416,7 @@ const quiz = {
         }
     },
 
-    //This is how the questions and answers in the questionbox are generated
+    //This is how the questions and answers in the quizbox are generated
     newQuestion: (questionNumber)=>{
         var quizBox = document.createElement("div");
         var questionBox = document.createElement("h3");
